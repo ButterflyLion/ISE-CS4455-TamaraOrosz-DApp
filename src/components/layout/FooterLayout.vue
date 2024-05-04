@@ -1,7 +1,6 @@
 <script setup>
 import { FacebookFilled } from '@vicons/material'
 import { InstagramFilled } from '@vicons/antd'
-import { NIcon } from 'naive-ui'
 </script>
 
 <template>
@@ -42,6 +41,7 @@ import { NIcon } from 'naive-ui'
   background-color: #ccebff;
   align-self: end;
   width: 100%;
+  height: fit-content;
   padding: 20px;
   text-align: center;
 }
@@ -68,7 +68,7 @@ import { NIcon } from 'naive-ui'
 
 @media (hover: hover) {
   a:hover {
-    color: #FE15C6;
+    color: #fe15c6;
   }
 }
 </style>
