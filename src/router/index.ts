@@ -4,6 +4,7 @@ import AboutView from '../views/AboutView.vue'
 import CreateWalletView from '@/views/CreateWalletView.vue'
 import EventView from '@/views/EventView.vue'
 import ErrorView from '@/views/ErrorView.vue'
+import ViewWalletBalances from '@/views/ViewWalletBalances.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,6 +23,11 @@ const router = createRouter({
       path: '/create-wallet',
       name: 'create-wallet',
       component: CreateWalletView
+    },
+    {
+      path: '/view-wallet',
+      name: 'view-wallet',
+      component: ViewWalletBalances
     },
     {
       path: '/event',
