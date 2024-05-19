@@ -6,6 +6,24 @@
   background-color: #01318ab6;
 }
 
+main {
+  display: flex;
+  flex-direction: column;
+  padding: 15px 15px 15px 15px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #fe15c6;
+}
+
+.n-card {
+  padding: 20px;
+  background-color: #ccebff;
+  text-align: center;
+  text-transform: uppercase;
+  height: fit-content;
+  max-width: 800px;
+}
+
 a {
   font-size: x-large;
   text-decoration: none;

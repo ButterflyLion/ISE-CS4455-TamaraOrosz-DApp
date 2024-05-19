@@ -59,7 +59,7 @@ export default defineComponent({
 
 <template>
   <main>
-    <n-card title="Create a wallet" class="card">
+    <n-card title="Create a wallet">
       <div class="inputGroup">
         <n-input-group>
           <n-input
@@ -99,24 +99,6 @@ export default defineComponent({
 </template>
 
 <style scoped>
-main {
-  display: flex;
-  flex-direction: column;
-  padding: 15px 15px 15px 15px;
-  text-align: center;
-  text-transform: uppercase;
-  color: #fe15c6;
-}
-
-.card {
-  padding: 20px;
-  background-color: #ccebff;
-  text-align: center;
-  text-transform: uppercase;
-  height: fit-content;
-  width: auto;
-}
-
 .inputGroup {
   text-transform: none;
 }
