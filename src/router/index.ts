@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
-import CreateWalletView from '@/views/CreateWalletView.vue'
+import CreateWalletView from '@/components/wallets/CreateWalletView.vue'
 import EventView from '@/views/EventView.vue'
 import ErrorView from '@/views/ErrorView.vue'
-import ViewWalletBalances from '@/views/ViewWalletBalances.vue'
+import ViewWalletBalances from '@/components/wallets/ViewWalletBalances.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

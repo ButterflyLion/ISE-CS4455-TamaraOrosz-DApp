@@ -26,8 +26,8 @@ contract SecureTicketing is IERC20 {
         symbol = _symbol;
         decimals = _decimals;
         _totalSupply = initialSupply * 10**uint256(decimals);
-        _balances[msg.sender] = _totalSupply;
-        emit Transfer(address(0), msg.sender, _totalSupply);
+        _balances[address(this)] = _totalSupply;    // Assign all tokens to contract
+        emit Transfer(address(0), address(this), _totalSupply);
     }
 
     function totalSupply() external view override returns (uint256) {

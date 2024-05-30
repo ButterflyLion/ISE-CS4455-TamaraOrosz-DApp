@@ -1,21 +1,26 @@
-<script setup>
+<script setup lang="ts">
+import { NConfigProvider, type GlobalThemeOverrides } from 'naive-ui'
 import { WalletTwotone } from '@vicons/antd'
 import { useRouter, RouterLink } from 'vue-router'
 
 const router = useRouter()
 
-const options = [
-  { label: 'Create Wallet', key: 'create-wallet' },
-  { label: 'View Wallet', key: 'view-wallet' },
-  { label: 'Manage Wallet', key: 'delete-wallet' }
+const eventOptions = [
+  { label: 'Buy Ticket', key: 'buy-ticket' },
+  { label: 'Sell Ticket', key: 'sell-ticket' }
 ]
 
-function handleSelect(key) {
-  const routePath = getRoute(key)
+const walletOptions = [
+  { label: 'Create Wallets', key: 'create-wallet' },
+  { label: 'View Wallets', key: 'view-wallet' },
+]
+
+function handleSelect(key: string): void {
+  const routePath: string = getRoute(key) as string;
   router.push(routePath)
 }
 
-function getRoute(key) {
+function getRoute(key: string) {
   switch (key) {
     case 'create-wallet':
       return '/create-wallet'
@@ -23,11 +28,39 @@ function getRoute(key) {
       return '/view-wallet'
     case 'delete-wallet':
       return '/delete-wallet'
+    case 'buy-ticket':
+      return '/buy-ticket'
+    case 'sell-ticket':
+      return '/sell-ticket'
   }
+}
+
+const themeOverrides: GlobalThemeOverrides = {
+  Dropdown: {
+    color: '#01328a',
+    optionTextColor: '#ccebff',
+    optionTextColorHover: '#fe15c6',
+    optionColorHover: '#ccebff',
+    borderColor: 'none',
+  },
+  Button: {
+    textColorHover: '#fe15c6',
+    border: 'none',
+    borderHover: 'none',
+    paddingMedium: '14px 16px',
+    textColor: '#01328a',
+    colorHover: 'none',
+    colorPressed: 'none',
+    borderPressed: 'none',
+    textColorPressed: 'none',
+    textColorFocus: '#01328a',
+    borderFocus: 'none',
+  },
 }
 </script>
 
 <template>
+  <n-config-provider :theme-overrides="themeOverrides">
   <header>
     <div class="full-width-header">
       <nav>
@@ -38,17 +71,13 @@ function getRoute(key) {
       <nav class="pages-links">
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about-us">About us</RouterLink>
-        <RouterLink to="/event">Event</RouterLink>
-        <n-dropdown
-          trigger="hover"
-          :options="options"
-          @select="handleSelect"
-          class="custom-dropdown"
-        >
-          <n-button
-            quaternary
-            style="text-transform: uppercase; color: #01328a; font-size: x-large"
+        <n-dropdown trigger="hover" :options="eventOptions" @select="handleSelect">
+          <n-button style="text-transform: uppercase; font-size: x-large"
+            >Event</n-button
           >
+        </n-dropdown>
+        <n-dropdown trigger="hover" :options="walletOptions" @select="handleSelect">
+          <n-button style="text-transform: uppercase; font-size: x-large">
             <template #icon>
               <n-icon>
                 <WalletTwotone />
@@ -60,6 +89,7 @@ function getRoute(key) {
       </nav>
     </div>
   </header>
+</n-config-provider>
 </template>
 
 <style scoped>
@@ -90,9 +120,5 @@ nav a {
   a:hover {
     color: #fe15c6;
   }
-}
-
-.custom-dropdown {
-  --n-color: #ccebff;
 }
 </style>
