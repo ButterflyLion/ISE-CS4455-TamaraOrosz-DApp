@@ -5,6 +5,7 @@ import CreateWalletView from '@/components/wallets/CreateWalletView.vue'
 import EventView from '@/views/EventView.vue'
 import ErrorView from '@/views/ErrorView.vue'
 import ViewWalletBalances from '@/components/wallets/ViewWalletBalances.vue'
+import BuyTicket from '@/components/event/BuyTicket.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,6 +34,11 @@ const router = createRouter({
       path: '/event',
       name: 'event',
       component: EventView
+    },
+    {
+      path: '/buy-ticket',
+      name: 'buy-ticket',
+      component: BuyTicket,
     },
     {
       path: '/:catchAll(.*)*',
