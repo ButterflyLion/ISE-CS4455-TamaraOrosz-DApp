@@ -2,7 +2,7 @@
 import { NConfigProvider, type GlobalThemeOverrides } from 'naive-ui'
 import { ref } from 'vue'
 import Web3 from 'web3'
-import ABI from '../../../contract/ABI.js'
+import ABI from '../../../contract/ABI'
 
 const web3 = new Web3('https://rpc2.sepolia.org')
 
