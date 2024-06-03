@@ -2,6 +2,7 @@
 import { NConfigProvider, type GlobalThemeOverrides } from 'naive-ui'
 import AttendeesView from './AttendeesView.vue'
 import UshersView from './UshersView.vue'
+import VenueView from './VenueView.vue'
 
 const themeOverrides: GlobalThemeOverrides = {
   Tabs: {
@@ -53,7 +54,9 @@ const themeOverrides: GlobalThemeOverrides = {
           <n-tab-pane name="ushers" tab="Ushers">
             <ushers-view />
           </n-tab-pane>
-          <n-tab-pane name="venue" tab="Venue"> Here is for venue </n-tab-pane>
+          <n-tab-pane name="venue" tab="Venue">
+            <venue-view />
+          </n-tab-pane>
         </n-tabs>
       </n-card>
     </main>
