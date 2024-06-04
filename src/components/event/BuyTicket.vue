@@ -14,7 +14,7 @@ const tokenPricePromise = contract.methods.ticketPrice().call()
 const ticketPrice = ref()
 
 tokenPricePromise.then((price) => {
-    const displayedPrice = parseFloat(web3.utils.fromWei(price, 'ether')); // Cast to number and convert from wei
+    const displayedPrice = parseFloat(web3.utils.fromWei(String(price), 'ether')); // Cast to number and convert from wei
     ticketPrice.value = displayedPrice;
 });
 
