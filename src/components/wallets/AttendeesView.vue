@@ -8,6 +8,10 @@ const web3 = new Web3('https://rpc2.sepolia.org')
 
 const walletAddress = ref('')
 const ticketTokenAddress = ref('0x5F16813bAf39c710aFCB26F04Ef0E19a5ee1F653')
+const contract = new web3.eth.Contract(ABI, ticketTokenAddress.value)
+
+const walletCryptoBalance = ref<string | null>(null)
+const ticketBalance = ref(null)
 
 const viewBalance = async () => {
   if (walletAddress.value === '') {
@@ -18,7 +22,7 @@ const viewBalance = async () => {
     const balance = await web3.eth.getBalance(walletAddress.value)
     console.log(balance)
     const balanceInEther = web3.utils.fromWei(balance, 'ether')
-    alert(`Balance: ${balanceInEther} ETH`)
+    walletCryptoBalance.value = balanceInEther
   } else {
     alert('Invalid wallet address given')
   }
@@ -31,15 +35,13 @@ const viewTickets = async () => {
   }
   if (web3.utils.isAddress(ticketTokenAddress.value) && web3.utils.isAddress(walletAddress.value)) {
     console.log('Valid token addresses')
-    const contract = new web3.eth.Contract(ABI, ticketTokenAddress.value)
-    contract.methods.balanceOf(walletAddress.value).call().then(function(balance: any) {
-      console.log(balance)
-      alert(`Balance: ${balance} tickets`)
-    })
-    contract.methods.symbol().call().then(function(symbol: string) {
-      console.log(symbol)
-      alert(`Token name: ${symbol}`)
-    })
+    contract.methods
+      .balanceOf(walletAddress.value)
+      .call()
+      .then(function (balance: any) {
+        console.log(balance)
+        ticketBalance.value = balance
+      })
   } else {
     alert('Invalid token address given')
   }
@@ -63,10 +65,7 @@ const themeOverrides: GlobalThemeOverrides = {
     textColorPressed: '#01328a',
     textColorGhostPressed: '#01328a',
     textColorTextPressed: '#01328a',
-    textColorFocus: '#01328a',
-    colorDisabled: '#01328a',
-    borderDisabled: 'none',
-    borderFocus: 'red'
+    textColorFocus: '#01328a'
   },
   Input: {
     borderFocus: '#fe15c6',
@@ -74,6 +73,9 @@ const themeOverrides: GlobalThemeOverrides = {
     boxShadowFocus: '#fe15c6',
     caretColor: '#01328a',
     textColor: '#01328a'
+  },
+  Tag: {
+    textColor: '#fe15c6'
   }
 }
 </script>
@@ -89,13 +91,14 @@ const themeOverrides: GlobalThemeOverrides = {
             type="text"
             placeholder="Enter your wallet address"
           />
-          <n-button @click="viewBalance"> View account balance </n-button>
+        </n-input-group>
+        <n-input-group style="display: flex; justify-content: space-around">
+          <n-button @click="viewBalance"> Account balance </n-button>
+          <n-tag>{{ walletCryptoBalance ? `${walletCryptoBalance} ETH` : '- ETH' }}</n-tag>
+          <n-button @click="viewTickets"> Ticket Balance </n-button>
+          <n-tag>{{ ticketBalance ? `${ticketBalance} ticket(s)` : '- ticket(s)' }}</n-tag>
         </n-input-group>
       </n-card>
-      <n-card title="View tickets"
-        ><n-input-group>
-      <n-button @click="viewTickets">View tickets</n-button>
-    </n-input-group></n-card>
     </main>
   </n-config-provider>
 </template>
@@ -110,7 +113,13 @@ label {
   text-transform: none;
 }
 
+.n-tag {
+  text-transform: none;
+  margin: 10px;
+}
+
 .n-button {
   text-transform: uppercase;
+  margin: 10px;
 }
 </style>
