@@ -3,35 +3,39 @@ pragma solidity ^0.8.0;
 
 interface IERC20 {
     function totalSupply() external view returns (uint256);
+    function ticketPrice() external view returns (uint256);
     function balanceOf(address account) external view returns (uint256);
     function transfer(address recipient, uint256 amount) external returns (bool);
     function allowance(address owner, address spender) external view returns (uint256);
     function approve(address spender, uint256 amount) external returns (bool);
     function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
+    function buyToken(uint8 numTokens) external payable;
+    function contractBalance() external view returns (uint256);
 
     event Transfer(address indexed from, address indexed to, uint256 value);
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
 contract SecureTicketing is IERC20 {
-    string public name;
-    string public symbol;
-    uint8 public decimals;
-    uint256 private _totalSupply;
+    string public name = "SecureTicket";
+    string public symbol = "ST";
+    uint8 public decimals = 0;
+    uint256 private _totalSupply = 1000;
+    uint256 public tokenPrice = 0.000001 ether;
     mapping(address => uint256) private _balances;
     mapping(address => mapping(address => uint256)) private _allowances;
 
-    constructor(string memory _name, string memory _symbol, uint8 _decimals, uint256 initialSupply) {
-        name = _name;
-        symbol = _symbol;
-        decimals = _decimals;
-        _totalSupply = initialSupply * 10**uint256(decimals);
-        _balances[address(this)] = _totalSupply;    // Assign all tokens to contract
+    constructor() {
+        _balances[address(this)] = _totalSupply;
         emit Transfer(address(0), address(this), _totalSupply);
     }
 
     function totalSupply() external view override returns (uint256) {
         return _totalSupply;
+    }
+
+    function ticketPrice() external view returns (uint256) {
+        return tokenPrice;
     }
 
     function balanceOf(address account) external view override returns (uint256) {
@@ -74,5 +78,21 @@ contract SecureTicketing is IERC20 {
 
         _allowances[owner][spender] = amount;
         emit Approval(owner, spender, amount);
+    }
+
+    function buyToken(uint8 numTokens) external payable {
+        uint256 totalCost = numTokens * tokenPrice;
+        require(msg.value >= totalCost, "Not enough ETH sent for the number of tokens!");
+        require(_balances[address(this)] >= numTokens, "Not enough tokens available to buy");
+
+        _transfer(address(this), msg.sender, numTokens);
+
+        if (msg.value > totalCost) {
+            payable(msg.sender).transfer(msg.value - totalCost);
+        }
+    }
+
+    function contractBalance() external view returns (uint256) {
+        return _balances[address(this)];
     }
 }
