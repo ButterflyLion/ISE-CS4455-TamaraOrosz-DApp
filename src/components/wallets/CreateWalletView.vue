@@ -8,7 +8,7 @@ const walletAddress = ref('')
 const privKey = ref('')
 const keystore = ref('')
 
-const walletCreated = ref(false)
+var walletCreated = ref(false)
 const loading = ref(false)
 
 const createWallet = async () => {
@@ -134,7 +134,7 @@ const themeOverrides: GlobalThemeOverrides = {
             :disabled="true"
           />
         </n-flex>
-        <n-button @click="downloadKeystore" :loading="loading" disabled="walletCreated"
+        <n-button @click="downloadKeystore" :loading="loading" :disabled="!walletCreated"
           >Download</n-button
         >
       </n-card>

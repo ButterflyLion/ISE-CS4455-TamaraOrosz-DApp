@@ -84,8 +84,8 @@ const themeOverrides: GlobalThemeOverrides = {
   <n-config-provider :theme-overrides="themeOverrides">
     <main>
       <n-card title="View account balance">
-        <label>Wallet address</label
-        ><n-input-group>
+        <label>Wallet address</label>
+        <n-input-group>
           <n-input
             v-model:value="walletAddress"
             type="text"
