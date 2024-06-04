@@ -63,7 +63,7 @@ const themeOverrides: GlobalThemeOverrides = {
     thColor: '#ccebff',
     tdTextColor: '#fe15c6',
     thTextColor: '#01328a',
-    borderColor: 'none'
+    borderColor: '#01328a'
   }
 }
 </script>
