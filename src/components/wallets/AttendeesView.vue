@@ -7,7 +7,7 @@ import ABI from '../../../contract/ABI'
 const web3 = new Web3('https://rpc2.sepolia.org')
 
 const walletAddress = ref('')
-const ticketTokenAddress = ref('0x67DA0F4381CF71Ca4d1F1efb32F049FC1576cAeC')
+const ticketTokenAddress = ref('0x5F16813bAf39c710aFCB26F04Ef0E19a5ee1F653')
 
 const viewBalance = async () => {
   if (walletAddress.value === '') {
@@ -30,6 +30,7 @@ const viewTickets = async () => {
     return
   }
   if (web3.utils.isAddress(ticketTokenAddress.value) && web3.utils.isAddress(walletAddress.value)) {
+    console.log('Valid token addresses')
     const contract = new web3.eth.Contract(ABI, ticketTokenAddress.value)
     contract.methods.balanceOf(walletAddress.value).call().then(function(balance: any) {
       console.log(balance)

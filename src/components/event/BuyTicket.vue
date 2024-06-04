@@ -8,10 +8,16 @@ import ABI from '../../../contract/ABI'
 const web3 = new Web3('https://rpc2.sepolia.org')
 const showModal = ref(false) // Modal visibility
 
-const ticketTokenAddress = ref('0x67DA0F4381CF71Ca4d1F1efb32F049FC1576cAeC')
+const ticketTokenAddress = ref('0x5F16813bAf39c710aFCB26F04Ef0E19a5ee1F653')
 const contract = new web3.eth.Contract(ABI, ticketTokenAddress.value)
+const tokenPricePromise = contract.methods.ticketPrice().call()
+const ticketPrice = ref()
 
-const ticketPrice = ref(0.001) // Ticket price set in SETH in the contract
+tokenPricePromise.then((price) => {
+    const displayedPrice = parseFloat(web3.utils.fromWei(price, 'ether')); // Cast to number and convert from wei
+    ticketPrice.value = displayedPrice;
+});
+
 const ticketQuantity = ref(1) // Default ticket quantity
 const minQuantity = 1
 const maxQuantity = 10
@@ -25,47 +31,112 @@ const password = ref('') // Password for the wallet
 const privateKey = ref('') // Private key of the wallet address
 
 const handleChange = (data: { fileList: UploadFileInfo[] }) => {
-      fileListLengthRef.value = data.fileList.length
-      if (data.fileList.length > 0) {
-        upload.value = data.fileList[0]
-        console.log(upload.value)
-      } else {
-        upload.value = null
-      }
-    }
+  fileListLengthRef.value = data.fileList.length
+  if (data.fileList.length > 0) {
+    upload.value = data.fileList[0]
+  } else {
+    upload.value = null
+  }
+}
 
 const loadWallet = async () => {
   loading.value = true
   let wallet
   if (upload.value === null) {
+    loading.value = false
     alert('Please upload a wallet file')
     return
   }
   if (password.value === '') {
+    loading.value = false
     alert('Please enter a password')
     return
   }
   const reader = new FileReader()
-  console.log(upload.value)
   reader.onload = async (e) => {
     const result = e.target?.result
     try {
-      const keystore = result ? JSON.parse(result.toString()) : null;
-      wallet = await web3.eth.accounts.decrypt(keystore, password.value)
-      privateKey.value = wallet.privateKey
-      walletAddress.value = wallet.address
+      const keystore = result ? JSON.parse(result.toString()) : null
+      wallet = await decryptWallet(keystore, password.value)
     } catch (error) {
       console.error('Error decrypting wallet file', error)
       alert('Error parsing wallet file')
+    } finally {
+      console.log('Finally')
+      showModal.value = false
+      await handleBuy()
+      loading.value = false
     }
-  }  
-  reader.readAsText(upload.value.file as File)
-  showModal.value = false
+  }
+  if (upload.value !== null) {
+    console.log('Reading file')
+    reader.readAsText(upload.value.file as File)
+  } else {
+    loading.value = false
+    alert('Please upload a wallet file')
+  }
+}
+
+const decryptWallet = async (keystore: string, password: string) => {
+  try {
+    const wallet = await web3.eth.accounts.decrypt(keystore, password)
+    privateKey.value = wallet.privateKey
+    walletAddress.value = wallet.address
+    return wallet
+  } catch (error) {
+    console.error('Error decrypting wallet file', error)
+    alert('Error parsing wallet file')
+  }
 }
 
 const totalCost = computed((): number => {
   return Number(ticketPrice.value) * Number(ticketQuantity.value)
 })
+
+const handleBuy = async () => {
+  try {
+    if (
+      web3.utils.isAddress(walletAddress.value) &&
+      web3.utils.isAddress(ticketTokenAddress.value) &&
+      privateKey.value !== ''
+    ) {
+      const walletBalance = await web3.eth.getBalance(walletAddress.value)
+      const contractBalance = contract.methods.contractBalance()
+      console.log('Wallet balance:', walletBalance)
+      console.log('Contract balance:', contractBalance)
+
+      const account = web3.eth.accounts.privateKeyToAccount(privateKey.value)
+      const transaction = contract.methods.buyToken(ticketQuantity.value)
+      const encodedABI = transaction.encodeABI()
+      const gasPrice = await web3.eth.getGasPrice()
+      console.log('Gas price:', gasPrice)
+
+      const amount = web3.utils.toWei(totalCost.value.toString(), 'ether')
+      console.log('Amount:', amount)
+
+      const tx = {
+        from: account.address,
+        to: ticketTokenAddress.value,
+        data: encodedABI,
+        value: amount,
+        gas: 2000000,
+        gasPrice: gasPrice,
+      }
+
+      web3.eth.accounts.signTransaction(tx, privateKey.value).then(function (signedTx) {
+        web3.eth.sendSignedTransaction(signedTx.rawTransaction).on('receipt', function (receipt){
+          console.log('Transaction receipt:', receipt)
+          alert('Transaction successful')
+        })
+      })
+    } else {
+      alert('Invalid wallet or token address given')
+    }
+  } catch (error) {
+    console.error('Error buying tickets', error)
+    alert('Error buying tickets')
+    }
+}
 
 const themeOverrides: GlobalThemeOverrides = {
   Card: {
