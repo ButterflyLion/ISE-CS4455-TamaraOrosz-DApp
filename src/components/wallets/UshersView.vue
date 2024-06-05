@@ -35,6 +35,7 @@ const ticketStore = useTicketStore()
 const usherWalletAddress = ref('')
 const usherTicketBalance = ref()
 
+// Function to view the number of tickets owned by the attendee's wallet address
 const viewAttendeeTickets = async () => {
   if (attendeeWalletAddress.value === '') {
     alert('Please enter a wallet address')
@@ -57,6 +58,7 @@ const viewAttendeeTickets = async () => {
   }
 }
 
+// Function to move to the next step in the process
 const next = () => {
   if (current.value >= 3) {
     reset()
@@ -65,6 +67,7 @@ const next = () => {
   }
 }
 
+// Function to reset the form
 const reset = () => {
   attendeeWalletAddress.value = ''
   attendeeTicketBalance.value = undefined
@@ -77,6 +80,8 @@ const reset = () => {
   current.value = 1
 }
 
+// Function to handle the change event of the file upload component
+// and update the file list length and the selected file
 const handleChange = (data: { fileList: UploadFileInfo[] }) => {
   fileListLengthRef.value = data.fileList.length
   if (data.fileList.length > 0) {
@@ -86,6 +91,8 @@ const handleChange = (data: { fileList: UploadFileInfo[] }) => {
   }
 }
 
+// Function to decrypt the wallet file and extract the private key
+// if the previously entered wallet address matches the keystore's wallet address
 const decryptWallet = async (keystore: string, password: string) => {
   try {
     const wallet = await web3.eth.accounts.decrypt(keystore, password)
@@ -100,6 +107,7 @@ const decryptWallet = async (keystore: string, password: string) => {
   }
 }
 
+// Function to load the wallet file and decrypt it
 const loadWallet = async () => {
   if (upload.value === null) {
     alert('Please upload a wallet file')
@@ -130,6 +138,8 @@ const loadWallet = async () => {
   }
 }
 
+// Function to view the number of tickets collected by the usher, i.e. how many people have been admitted
+// The usher's wallet address is used to identify the usher
 const viewUsherTickets = async () => {
   if (usherWalletAddress.value === '') {
     alert('Please enter a valid USHER wallet address')
@@ -147,9 +157,9 @@ const viewUsherTickets = async () => {
   }
 }
 
+// Function to collect the ticket(s) from the attendee and transfer them back to the contract
 const collectTicket = async () => {
   await viewUsherTickets()
-  console.log('after viewUsherTickets()')
   if (attendeeWalletAddress.value === '' || usherWalletAddress.value === '') {
     alert('Please enter both attendee and usher wallet addresses')
     return

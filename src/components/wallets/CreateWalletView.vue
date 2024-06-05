@@ -11,6 +11,8 @@ const keystore = ref('')
 var walletCreated = ref(false)
 const loading = ref(false)
 
+// Function to create a new wallet
+// Requires a password to encrypt the private key
 const createWallet = async () => {
   if (password.value === '') {
     alert('Please enter a password')
@@ -31,9 +33,7 @@ const createWallet = async () => {
       return
     } else {
       walletCreated.value = true
-      console.log(newKeystore)
       keystore.value = JSON.stringify(newKeystore)
-      console.log(keystore.value)
     }
   } catch (error) {
     console.error('Error creating a new wallet', error)
@@ -42,6 +42,7 @@ const createWallet = async () => {
   }
 }
 
+// Function to download the keystore file that contains the newly created wallet's information
 const downloadKeystore = () => {
   if (keystore.value === '') {
     alert('Please create a wallet first')
@@ -51,6 +52,8 @@ const downloadKeystore = () => {
   saveAs(keystoreBlob, walletAddress.value + '.json')
 }
 
+// Function to save the keystore file to the user's device
+// File is saved as a .json file and named after the wallet address
 const saveAs = (blob: Blob | MediaSource, filename: string) => {
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')

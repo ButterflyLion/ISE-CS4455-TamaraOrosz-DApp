@@ -102,17 +102,13 @@ const handleBuy = async () => {
     ) {
       const walletBalance = await web3.eth.getBalance(walletAddress.value)
       const contractBalance = contract.methods.contractBalance()
-      console.log('Wallet balance:', walletBalance)
-      console.log('Contract balance:', contractBalance)
 
       const account = web3.eth.accounts.privateKeyToAccount(privateKey.value)
       const transaction = contract.methods.buyToken(ticketQuantity.value)
       const encodedABI = transaction.encodeABI()
       const gasPrice = await web3.eth.getGasPrice()
-      console.log('Gas price:', gasPrice)
 
       const amount = web3.utils.toWei(totalCost.value.toString(), 'ether')
-      console.log('Amount:', amount)
 
       const tx = {
         from: account.address,
@@ -125,7 +121,6 @@ const handleBuy = async () => {
 
       web3.eth.accounts.signTransaction(tx, privateKey.value).then(function (signedTx) {
         web3.eth.sendSignedTransaction(signedTx.rawTransaction).on('receipt', function (receipt){
-          console.log('Transaction receipt:', receipt)
           alert('Transaction successful')
         })
       })

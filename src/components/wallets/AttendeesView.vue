@@ -13,6 +13,7 @@ const contract = new web3.eth.Contract(ABI, ticketTokenAddress.value)
 const walletCryptoBalance = ref<string | null>(null)
 const ticketBalance = ref(null)
 
+// Function to view the crypto balance of the attendee's wallet address
 const viewBalance = async () => {
   if (walletAddress.value === '') {
     alert('Please enter a wallet address')
@@ -20,7 +21,6 @@ const viewBalance = async () => {
   }
   if (web3.utils.isAddress(walletAddress.value)) {
     const balance = await web3.eth.getBalance(walletAddress.value)
-    console.log(balance)
     const balanceInEther = web3.utils.fromWei(balance, 'ether')
     walletCryptoBalance.value = balanceInEther
   } else {
@@ -28,6 +28,7 @@ const viewBalance = async () => {
   }
 }
 
+// Function to view the number of tickets owned by the attendee's wallet address
 const viewTickets = async () => {
   if (walletAddress.value === '') {
     alert('Please enter a wallet address')
@@ -39,7 +40,6 @@ const viewTickets = async () => {
       .balanceOf(walletAddress.value)
       .call()
       .then(function (balance: any) {
-        console.log(balance)
         ticketBalance.value = balance
       })
   } else {
@@ -94,7 +94,7 @@ const themeOverrides: GlobalThemeOverrides = {
         </n-input-group>
         <n-input-group style="display: flex; justify-content: space-around">
           <n-button @click="viewBalance"> Account balance </n-button>
-          <n-tag>{{ walletCryptoBalance ? `${walletCryptoBalance} ETH` : '- ETH' }}</n-tag>
+          <n-tag>{{ walletCryptoBalance ? `${walletCryptoBalance} SETH` : '- SETH' }}</n-tag>
           <n-button @click="viewTickets"> Ticket Balance </n-button>
           <n-tag>{{ ticketBalance ? `${ticketBalance} ticket(s)` : '- ticket(s)' }}</n-tag>
         </n-input-group>

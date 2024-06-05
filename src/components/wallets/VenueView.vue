@@ -14,10 +14,12 @@ const totalSupply = ref()
 const ticketBalancePromise = contract.methods.contractBalance().call()
 const ticketBalance = ref()
 
+// Function to view the number of tickets owned by the attendees
 const soldTickets = computed(() => {
   return parseInt(totalSupply.value) - parseInt(ticketBalance.value)
 })
 
+// Function to view the total supply and balance of the tickets
 const viewTicketBalance = async () => {
   await totalSupplyPromise.then((totalSupplY) => {
     totalSupply.value = totalSupplY
