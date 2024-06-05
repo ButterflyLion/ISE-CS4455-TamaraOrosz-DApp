@@ -66,7 +66,13 @@ This will start the development server and the application will be available at 
 
 ### Running the Tests
 
-...
+To run the tests, simply run:
+```bash
+# Using npm
+npm test
+# Using yarn
+yarn test
+```
 
 ## Project Structure
 
