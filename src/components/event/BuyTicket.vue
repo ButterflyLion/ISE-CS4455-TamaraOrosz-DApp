@@ -206,6 +206,7 @@ const themeOverrides: GlobalThemeOverrides = {
           :single-line="false"
           size="large"
           clearable="false"
+          style="width: 100%"
         >
           <thead>
             <tr>
@@ -221,7 +222,7 @@ const themeOverrides: GlobalThemeOverrides = {
               <td>
                 <n-input-number
                   id="ticketQuantity"
-                  style="width: 20%"
+                  style="width: 50%"
                   v-model:value="ticketQuantity"
                   button-placement="both"
                   :min="minQuantity"

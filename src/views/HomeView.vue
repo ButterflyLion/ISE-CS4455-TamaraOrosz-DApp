@@ -34,7 +34,9 @@ const themeOverrides: GlobalThemeOverrides = {
             <span style="text-transform: none; font-weight: 100">Secure your place.<br /></span>
             <span style="text-transform: none; font-weight: 100">See you there.</span>
           </h2>
-          <n-button>Get tickets</n-button>
+          <RouterLink to="/buy-ticket">
+            <n-button>Get tickets</n-button>
+          </RouterLink>
         </div>
       </div>
       <div id="features">
