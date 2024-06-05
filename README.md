@@ -1,5 +1,3 @@
-<img src="src/assets/logo.svg" alt="Secure Ticketing Logo" width="200"/>
-
 # Secure Ticketing: an ISE CS4455 Blockchain DApp - Tamara Orosz
 This is a Web3 DApp that implements a simple ticketing system using the Ethereum Sepolia Testnet as the blockchain for Solidity smart contract deployments, and Vue.js for the front end.
 
@@ -72,7 +70,7 @@ This will start the development server and the application will be available at 
 
 ## Project Structure
 
-<?php
+```
 ISE-CS4455-TamaraOrosz-DApp/
 ├── contract/               # Smart contract and ABI
 ├── src/                    # Source files
@@ -97,7 +95,7 @@ ISE-CS4455-TamaraOrosz-DApp/
 ├── tsconfig.vitest.json    # TypeScript configuration file
 ├── vite.config.ts          # Configures Vite
 └── vitest.config.ts        # Configures Vitest
-?>
+```
 
 ## Colours used
 - Background: #CCEBFF
