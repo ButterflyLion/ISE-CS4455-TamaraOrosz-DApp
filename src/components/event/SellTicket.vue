@@ -125,17 +125,14 @@ const handleSell = async () => {
       const contractBalance = contract.methods.contractBalance()
 
       const account = web3.eth.accounts.privateKeyToAccount(privateKey.value)
-      const transaction = contract.methods.buyToken(ticketQuantity.value)
+      const transaction = contract.methods.transfer(ticketTokenAddress.value, ticketQuantity.value)
       const encodedABI = transaction.encodeABI()
       const gasPrice = await web3.eth.getGasPrice()
-
-      const amount = web3.utils.toWei(totalRefund.value.toString(), 'ether')
 
       const tx = {
         from: account.address,
         to: ticketTokenAddress.value,
         data: encodedABI,
-        value: amount,
         gas: 2000000,
         gasPrice: gasPrice
       }
