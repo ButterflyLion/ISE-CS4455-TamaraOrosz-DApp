@@ -1,4 +1,4 @@
-![Secure Ticketing Logo](src\assets\logo.svg)
+![Secure Ticketing Logo](src/assets/logo.svg)
 # Secure Ticketing: an ISE CS4455 Blockchain DApp - Tamara Orosz
 This is a Web3 DApp that implements a simple ticketing system using the Ethereum Sepolia Testnet as the blockchain for Solidity smart contract deployments, and Vue.js for the front end.
 
@@ -39,28 +39,28 @@ Before you begin, ensure you have the following installed on your machine:
 
 Clone the repository:
 ```bash
-    git clone https://github.com/ButterflyLion/ISE-CS4455-TamaraOrosz-DApp.git
+git clone https://github.com/ButterflyLion/ISE-CS4455-TamaraOrosz-DApp.git
 ```
 Navigate to the project repository:
 ```bash
-    cd ISE-CS4455-TamaraOrosz-DApp
+cd ISE-CS4455-TamaraOrosz-DApp
 ```
 Install dependencies with your chosen package manager:
 ```bash
-    # Using npm
-    npm install
-    # Using yarn
-    yarn install
+# Using npm
+npm install
+# Using yarn
+yarn install
 ```
 
 ### Running the Project
 
 Start the development server with your chosen package manager:
 ```bash
-    # Using npm
-    npm run dev
-    # Using yarn
-    yarn serve
+# Using npm
+npm run dev
+# Using yarn
+yarn serve
 ```
 
 This will start the development server and the application will be available at `http://localhost:5173/`.
